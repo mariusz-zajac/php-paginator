@@ -1,6 +1,6 @@
 {
     "name": "abb/paginator",
-    "description": "Simple paginator",
+    "description": "Simple and flexible PHP paginator",
     "type": "library",
     "license": "MIT",
     "authors": [
