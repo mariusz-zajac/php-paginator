@@ -63,6 +63,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals(1, $result->getCurrentPage());
         $this->assertEquals(8, $result->getTotalItemCount());
         $this->assertEquals(2, $result->getCurrentItemCount());
+        $this->assertEquals(2, $result->getPageSize());
         $this->assertEquals($items, $result->getItems());
     }
 

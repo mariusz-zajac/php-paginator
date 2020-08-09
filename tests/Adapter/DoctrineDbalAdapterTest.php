@@ -79,8 +79,11 @@ class DoctrineDbalAdapterTest extends DoctrineDbalTestCase
         $adapter = new DoctrineDbalAdapter($this->qb);
 
         // this query produces 250 rows
-        $this->qb->join('p', 'comments', 'c', 'c.post_id = p.id')
-            ->groupBy('c.post_id');
+        $rows = $this->qb->join('p', 'comments', 'c', 'c.post_id = p.id')
+            ->execute()
+            ->fetchAll();
+
+        $this->assertCount(250, $rows);
 
         // check if adapter uses cloned query which produces 50 rows
         $this->assertSame(50, $adapter->getTotalItemCount());
