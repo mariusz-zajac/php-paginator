@@ -31,7 +31,7 @@ class Paginator
      * Constructor
      *
      * @param AdapterInterface $adapter  Pagination adapter
-     * @param int              $pageSize Page size (default 10)
+     * @param int              $pageSize Maximum number of items per page (default 10)
      *
      * @throws InvalidArgumentException If zero or a negative page size is given
      */
