@@ -31,7 +31,7 @@ class PaginationResult
      * Constructor
      *
      * @param int   $currentPage    Current page number
-     * @param int   $pageSize       Page size
+     * @param int   $pageSize       Maximum number of items per page
      * @param int   $totalItemCount Total number of items
      * @param array $items          Current page items
      */
@@ -44,6 +44,8 @@ class PaginationResult
     }
 
     /**
+     * Returns current page number
+     *
      * @return int
      */
     public function getCurrentPage(): int
@@ -52,6 +54,8 @@ class PaginationResult
     }
 
     /**
+     * Returns first page number
+     *
      * @return int
      */
     public function getFirstPage(): int
@@ -60,6 +64,8 @@ class PaginationResult
     }
 
     /**
+     * Returns last page number
+     *
      * @return int
      */
     public function getLastPage(): int
@@ -68,6 +74,8 @@ class PaginationResult
     }
 
     /**
+     * Returns maximum number of items per page
+     *
      * @return int
      */
     public function getPageSize(): int
@@ -76,6 +84,8 @@ class PaginationResult
     }
 
     /**
+     * Checks if previous page exists
+     *
      * @return bool
      */
     public function hasPreviousPage(): bool
@@ -84,14 +94,18 @@ class PaginationResult
     }
 
     /**
-     * @return int
+     * Returns previous page number or NULL if previous page does not exist
+     *
+     * @return int|null
      */
-    public function getPreviousPage(): int
+    public function getPreviousPage(): ?int
     {
-        return max(1, $this->currentPage - 1);
+        return $this->hasPreviousPage() ? $this->currentPage - 1 : null;
     }
 
     /**
+     * Checks if next page exists
+     *
      * @return bool
      */
     public function hasNextPage(): bool
@@ -100,14 +114,18 @@ class PaginationResult
     }
 
     /**
-     * @return int
+     * Returns next page number or NULL if next page does not exist
+     *
+     * @return int|null
      */
-    public function getNextPage(): int
+    public function getNextPage(): ?int
     {
-        return min($this->getLastPage(), $this->currentPage + 1);
+        return $this->hasNextPage() ? $this->currentPage + 1 : null;
     }
 
     /**
+     * Determines if there are enough items to split into multiple pages
+     *
      * @return bool
      */
     public function hasToPaginate(): bool
@@ -116,6 +134,8 @@ class PaginationResult
     }
 
     /**
+     * Returns total number of items
+     *
      * @return int
      */
     public function getTotalItemCount(): int
@@ -124,14 +144,18 @@ class PaginationResult
     }
 
     /**
+     * Returns number of items for the current page
+     *
      * @return int
      */
-    public function getCurrentItemCount(): int
+    public function getItemCount(): int
     {
         return count($this->getItems());
     }
 
     /**
+     * Returns items for the current page
+     *
      * @return array
      */
     public function getItems(): array
