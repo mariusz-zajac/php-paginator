@@ -50,19 +50,51 @@ class PaginatorTest extends TestCase
 
     public function testPaginatorReturnsPaginationResult(): void
     {
-        $this->adapter->method('getTotalItemCount')
+        $this->adapter->expects($this->once())
+            ->method('getTotalItemCount')
             ->willReturn(8);
 
         $items = ['a', 'b'];
-        $this->adapter->method('getItems')
+        $this->adapter->expects($this->once())
+            ->method('getItems')
             ->with(0, 2)
             ->willReturn($items);
 
         $result = $this->paginator->paginate(1);
 
+        $this->assertInstanceOf('Abb\Paginator\PaginationResult', $result);
         $this->assertEquals(1, $result->getCurrentPage());
         $this->assertEquals(8, $result->getTotalItemCount());
-        $this->assertEquals(2, $result->getCurrentItemCount());
+        $this->assertEquals(2, $result->getItemCount());
+        $this->assertEquals(2, $result->getPageSize());
+        $this->assertEquals($items, $result->getItems());
+    }
+
+    /**
+     * @param int $page
+     *
+     * @testWith [0]
+     *           [-1]
+     *           [-10]
+     */
+    public function testPaginatorReturnsFirstPageResultsForNegativePageNumber(int $page): void
+    {
+        $this->adapter->expects($this->once())
+            ->method('getTotalItemCount')
+            ->willReturn(5);
+
+        $items = ['a', 'b'];
+        $this->adapter->expects($this->once())
+            ->method('getItems')
+            ->with(0, 2)
+            ->willReturn($items);
+
+        $result = $this->paginator->paginate($page);
+
+        $this->assertInstanceOf('Abb\Paginator\PaginationResult', $result);
+        $this->assertEquals(1, $result->getCurrentPage());
+        $this->assertEquals(5, $result->getTotalItemCount());
+        $this->assertEquals(2, $result->getItemCount());
         $this->assertEquals(2, $result->getPageSize());
         $this->assertEquals($items, $result->getItems());
     }
@@ -73,7 +105,8 @@ class PaginatorTest extends TestCase
             ->method('getTotalItemCount')
             ->willReturn(10);
 
-        $this->adapter->method('getItems')
+        $this->adapter->expects($this->atLeastOnce())
+            ->method('getItems')
             ->willReturn(['a', 'b']);
 
         $this->paginator->paginate(1);
