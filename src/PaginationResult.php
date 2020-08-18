@@ -54,21 +54,11 @@ class PaginationResult
     }
 
     /**
-     * Returns first page number
+     * Returns number of pages
      *
      * @return int
      */
-    public function getFirstPage(): int
-    {
-        return 1;
-    }
-
-    /**
-     * Returns last page number
-     *
-     * @return int
-     */
-    public function getLastPage(): int
+    public function getPageCount(): int
     {
         return max(1, (int) ceil($this->totalItemCount / $this->pageSize));
     }
@@ -81,56 +71,6 @@ class PaginationResult
     public function getPageSize(): int
     {
         return $this->pageSize;
-    }
-
-    /**
-     * Checks if previous page exists
-     *
-     * @return bool
-     */
-    public function hasPreviousPage(): bool
-    {
-        return $this->currentPage > 1;
-    }
-
-    /**
-     * Returns previous page number or NULL if previous page does not exist
-     *
-     * @return int|null
-     */
-    public function getPreviousPage(): ?int
-    {
-        return $this->hasPreviousPage() ? $this->currentPage - 1 : null;
-    }
-
-    /**
-     * Checks if next page exists
-     *
-     * @return bool
-     */
-    public function hasNextPage(): bool
-    {
-        return $this->currentPage < $this->getLastPage();
-    }
-
-    /**
-     * Returns next page number or NULL if next page does not exist
-     *
-     * @return int|null
-     */
-    public function getNextPage(): ?int
-    {
-        return $this->hasNextPage() ? $this->currentPage + 1 : null;
-    }
-
-    /**
-     * Determines if there are enough items to split into multiple pages
-     *
-     * @return bool
-     */
-    public function hasToPaginate(): bool
-    {
-        return $this->totalItemCount > $this->pageSize;
     }
 
     /**
