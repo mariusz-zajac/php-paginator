@@ -15,7 +15,7 @@ interface AdapterInterface
     public function getTotalItemCount(): int;
 
     /**
-     * Returns an slice of the results representing the current page of items in the list
+     * Returns a slice of the results representing the current page of items in the list
      *
      * @param int $offset
      * @param int $limit
