@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Abb\Paginator\Adapter;
 
-use Abb\Paginator\Exception\InvalidArgumentException;
+use Abb\Paginator\Exception\UnsupportedQueryBuilderTypeException;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 class DoctrineDbalAdapter implements AdapterInterface
@@ -39,12 +39,12 @@ class DoctrineDbalAdapter implements AdapterInterface
      * @param QueryBuilder  $queryBuilder
      * @param callable|null $countQueryBuilderModifier
      *
-     * @throws InvalidArgumentException If a non-SELECT query is given
+     * @throws UnsupportedQueryBuilderTypeException If a non-SELECT query is given
      */
     public function __construct(QueryBuilder $queryBuilder, callable $countQueryBuilderModifier = null)
     {
         if (QueryBuilder::SELECT !== $queryBuilder->getType()) {
-            throw new InvalidArgumentException('Only SELECT queries can be paginated.');
+            throw new UnsupportedQueryBuilderTypeException('Only SELECT queries can be paginated.');
         }
 
         $this->queryBuilder = clone $queryBuilder;
@@ -79,7 +79,7 @@ class DoctrineDbalAdapter implements AdapterInterface
     /**
      * Default count query builder modifier.
      *
-     * Prepares query to count results as:
+     * Prepares query to count results:
      * `SELECT count(*) FROM (subquery) t LIMIT 1`
      *
      * @param QueryBuilder $queryBuilder Query to fetch results

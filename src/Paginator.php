@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Abb\Paginator;
 
 use Abb\Paginator\Adapter\AdapterInterface;
-use Abb\Paginator\Exception\InvalidArgumentException;
+use Abb\Paginator\Exception\PageSizeLessThanOneException;
 
 class Paginator
 {
@@ -33,12 +33,12 @@ class Paginator
      * @param AdapterInterface $adapter  Pagination adapter
      * @param int              $pageSize Maximum number of items per page (default 10)
      *
-     * @throws InvalidArgumentException If zero or a negative page size is given
+     * @throws PageSizeLessThanOneException If zero or a negative page size is given
      */
     public function __construct(AdapterInterface $adapter, int $pageSize = self::PAGE_SIZE)
     {
         if ($pageSize < 1) {
-            throw new InvalidArgumentException('Page size must be a positive integer.');
+            throw new PageSizeLessThanOneException('Page size must be a positive integer.');
         }
 
         $this->adapter = $adapter;

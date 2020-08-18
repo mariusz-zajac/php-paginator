@@ -8,14 +8,14 @@ interface AdapterInterface
 {
 
     /**
-     * Returns the number of results for the list.
+     * Returns the number of results for the list
      *
      * @return int
      */
     public function getTotalItemCount(): int;
 
     /**
-     * Returns an slice of the results representing the current page of items in the list.
+     * Returns an slice of the results representing the current page of items in the list
      *
      * @param int $offset
      * @param int $limit

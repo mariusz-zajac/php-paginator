@@ -28,7 +28,7 @@ class DoctrineDbalAdapterTest extends DoctrineDbalTestCase
 
     public function testNonSelectQueryIsRejected(): void
     {
-        $this->expectException('Abb\Paginator\Exception\InvalidArgumentException');
+        $this->expectException('Abb\Paginator\Exception\UnsupportedQueryBuilderTypeException');
         $this->expectExceptionMessage('Only SELECT queries can be paginated.');
 
         $this->qb->delete('posts');

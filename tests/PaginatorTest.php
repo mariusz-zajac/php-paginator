@@ -42,7 +42,7 @@ class PaginatorTest extends TestCase
      */
     public function testNonPositivePageSizeIsRejected(int $pageSize): void
     {
-        $this->expectException('Abb\Paginator\Exception\InvalidArgumentException');
+        $this->expectException('Abb\Paginator\Exception\PageSizeLessThanOneException');
         $this->expectExceptionMessage('Page size must be a positive integer.');
 
         new Paginator($this->adapter, $pageSize);
