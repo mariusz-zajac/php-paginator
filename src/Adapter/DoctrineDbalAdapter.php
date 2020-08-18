@@ -34,7 +34,7 @@ class DoctrineDbalAdapter implements AdapterInterface
      * Constructor
      *
      * A callable modifier to modify the query builder to count the results should have a signature of
-     * `function (QueryBuilder $queryBuilder): void {}`
+     * `function (QueryBuilder $queryBuilder): QueryBuilder {}`
      *
      * @param QueryBuilder  $queryBuilder
      * @param callable|null $countQueryBuilderModifier
@@ -77,11 +77,27 @@ class DoctrineDbalAdapter implements AdapterInterface
     }
 
     /**
-     * @param QueryBuilder $queryBuilder
+     * Default count query builder modifier.
+     *
+     * Prepares query to count results as:
+     * `SELECT count(*) FROM (subquery) t LIMIT 1`
+     *
+     * @param QueryBuilder $queryBuilder Query to fetch results
+     *
+     * @return QueryBuilder
      */
-    protected function defaultCountQueryBuilderModifier(QueryBuilder $queryBuilder): void
+    protected function defaultCountQueryBuilderModifier(QueryBuilder $queryBuilder): QueryBuilder
     {
-        $queryBuilder->select('count(*)');
+        $sql = $queryBuilder->getSQL();
+        $params = $queryBuilder->getParameters();
+        $paramTypes = $queryBuilder->getParameterTypes();
+
+        $countQb = $queryBuilder->getConnection()->createQueryBuilder();
+
+        return $countQb->select('count(*)')
+            ->from('(' . $sql . ')', 't')
+            ->setParameters($params, $paramTypes)
+            ->setMaxResults(1);
     }
 
     /**
@@ -94,8 +110,6 @@ class DoctrineDbalAdapter implements AdapterInterface
         $qb = $this->countQueryBuilder;
         $modifier = $this->countQueryBuilderModifier;
 
-        $modifier($qb);
-
-        return $qb;
+        return $modifier($qb);
     }
 }

@@ -45,8 +45,8 @@ class DoctrineDbalAdapterTest extends DoctrineDbalTestCase
 
     public function testAdapterReturnsTotalItemCountWithCustomCountQueryBuilderModifier(): void
     {
-        $adapter = new DoctrineDbalAdapter($this->qb, function (QueryBuilder $qb): void {
-            $qb->select('10 AS cnt')
+        $adapter = new DoctrineDbalAdapter($this->qb, function (QueryBuilder $qb): QueryBuilder {
+            return $qb->select('10 AS cnt')
                 ->setMaxResults(1);
         });
 
