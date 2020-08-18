@@ -61,8 +61,8 @@ $qb = $connection->createQueryBuilder()
     ->from('posts', 'p')
     ->where('p.published = true');
 
-$countQbModifier = function (QueryBuilder $qb): void {
-   $qb->select('count(distinct p.id) AS cnt')
+$countQbModifier = function (QueryBuilder $qb): QueryBuilder {
+   return $qb->select('count(distinct p.id) AS cnt')
        ->setMaxResults(1);
 };
 
