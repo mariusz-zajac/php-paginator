@@ -21,6 +21,8 @@ $ composer require abb/paginator
 
 Example of usage:
 
+* DoctrineDbalAdapter
+
 ```php
 <?php
 
@@ -28,8 +30,7 @@ use Abb\Paginator\Adapter\DoctrineDbalAdapter;
 use Abb\Paginator\Paginator;
 use Doctrine\DBAL\DriverManager;
 
-$params = [/*...*/];
-$connection = DriverManager::getConnection($params);
+$connection = DriverManager::getConnection(/*...*/);
 
 $qb = $connection->createQueryBuilder()
     ->select('p.*')
@@ -53,8 +54,7 @@ use Abb\Paginator\Paginator;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Query\QueryBuilder;
 
-$params = [/*...*/];
-$connection = DriverManager::getConnection($params);
+$connection = DriverManager::getConnection(/*...*/);
 
 $qb = $connection->createQueryBuilder()
     ->select('p.*')
@@ -67,6 +67,26 @@ $countQbModifier = function (QueryBuilder $qb): QueryBuilder {
 };
 
 $adapter = new DoctrineDbalAdapter($qb, $countQbModifier);
+$paginator = new Paginator($adapter);
+$paginationResult = $paginator->paginate(1);
+```
+
+* DoctrineDbalPlainSqlAdapter
+
+```php
+use Abb\Paginator\Adapter\DoctrineDbalPlainSqlAdapter;
+use Abb\Paginator\Paginator;
+use Doctrine\DBAL\DriverManager;
+
+$connection = DriverManager::getConnection(/*...*/);
+
+$sql = 'SELECT * FROM posts p LEFT JOIN comments c ON p.id = c.post_id WHERE p.username = :username ORDER BY p.id';
+
+// WITH queries (PostgreSQL) are also supported, e.g.
+// $sql = 'WITH posts_with_comments AS (SELECT * FROM posts p LEFT JOIN comments c ON p.id = c.post_id)
+//     SELECT * FROM posts_with_comments pwc WHERE pwc.username = :username ORDER BY pwc.id';
+
+$adapter = new DoctrineDbalPlainSqlAdapter($connection, $sql, ['username' => 'John Doe']);
 $paginator = new Paginator($adapter);
 $paginationResult = $paginator->paginate(1);
 ```
