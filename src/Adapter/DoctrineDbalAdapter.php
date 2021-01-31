@@ -80,7 +80,7 @@ class DoctrineDbalAdapter implements AdapterInterface
      * Default count query builder modifier.
      *
      * Prepares query to count results:
-     * `SELECT count(*) FROM (subquery) t LIMIT 1`
+     * `SELECT count(*) FROM (subquery) t_cnt LIMIT 1`
      *
      * @param QueryBuilder $queryBuilder Query to fetch results
      *
@@ -95,7 +95,7 @@ class DoctrineDbalAdapter implements AdapterInterface
         $countQb = $queryBuilder->getConnection()->createQueryBuilder();
 
         return $countQb->select('count(*)')
-            ->from('(' . $sql . ')', 't')
+            ->from('(' . $sql . ')', 't_cnt')
             ->setParameters($params, $paramTypes)
             ->setMaxResults(1);
     }
