@@ -76,7 +76,7 @@ class DoctrineDbalPlainSqlAdapterTest extends DoctrineDbalTestCase
         $this->assertSame($expectedRows, $adapter->getItems(10, 5));
     }
 
-    public function testBuildCountSql(): void
+    public function testCountSqlBuildsProperly(): void
     {
         $sql = '
             WITH posts_with_comments AS (
@@ -100,6 +100,6 @@ class DoctrineDbalPlainSqlAdapterTest extends DoctrineDbalTestCase
             }
         };
 
-        $this->assertEquals($expectedCountSql, $adapter->buildCountSql($sql));
+        $this->assertEquals($expectedCountSql, $adapter->buildCountSql());
     }
 }
