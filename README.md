@@ -17,11 +17,9 @@ $ composer require abb/paginator
 
 ## Available adapters
 
-### Doctrine DBAL Adapter
+### DoctrineDbalAdapter
 
 Example of usage:
-
-* DoctrineDbalAdapter
 
 ```php
 <?php
@@ -71,7 +69,9 @@ $paginator = new Paginator($adapter);
 $paginationResult = $paginator->paginate(1);
 ```
 
-* DoctrineDbalPlainSqlAdapter
+### DoctrineDbalPlainSqlAdapter
+
+Example of usage:
 
 ```php
 use Abb\Paginator\Adapter\DoctrineDbalPlainSqlAdapter;
