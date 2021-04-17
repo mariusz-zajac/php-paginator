@@ -1,3 +1,7 @@
+### 1.2.0
+
+* Added .gitattributes
+
 ### 1.1.0
 
 * Added Doctrine DBAL Plain SQL Adapter
